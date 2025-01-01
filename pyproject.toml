@@ -1,0 +1,24 @@
+[project]
+name = "django-llm-poison"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Austin Riba", email = "austin@m51.io" }
+]
+requires-python = ">=3.13.1"
+dependencies = [
+    "markovify>=0.9.4",
+]
+
+[project.scripts]
+django-llm-poison = "django_llm_poison:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "django-stubs>=5.1.1",
+]
