@@ -2,6 +2,7 @@ from django.core.cache import cache
 from django import template
 import markovify
 import hashlib
+from django.utils.html import strip_tags
 
 from markovify.splitters import split_into_sentences
 from django_llm_poison.models import MarkovModel
@@ -28,13 +29,17 @@ def get_combined_model():
     return model
 
 
-@register.filter(is_safe=True)
-def poison(value: str):
+def build_model_for_content(value: str):
     hash = hashlib.sha1(value.encode()).hexdigest()
+    stripped = strip_tags(value)
     if not MarkovModel.objects.filter(hash=hash).exists():
-        model = markovify.Text(value)
+        model = markovify.Text(stripped)
         MarkovModel.objects.create(hash=hash, text=model.to_json())
         cache.delete("combined_model")
+
+
+def poisoned_string(value: str) -> str:
+    build_model_for_content(value)
     model = get_combined_model()
     if model is None:
         return value
@@ -52,3 +57,22 @@ def poison(value: str):
                 pass
 
     return " ".join(sentences)
+
+
+def do_poison(parser, token):
+    nodelist = parser.parse(("endpoison",))
+    parser.delete_first_token()
+    return PoisonNode(nodelist)
+
+
+class PoisonNode(template.Node):
+    def __init__(self, nodelist):
+        self.nodelist = nodelist
+
+    def render(self, context):
+        output = self.nodelist.render(context)
+        poisoned = poisoned_string(output)
+        return poisoned
+
+
+register.tag("poison", do_poison)
