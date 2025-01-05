@@ -1,4 +1,5 @@
 from django.core.cache import cache
+import re
 import markovify
 import hashlib
 from django.utils.html import strip_tags
@@ -41,9 +42,12 @@ def poisoned_string(value: str) -> str:
     if model is None:
         return value
 
-    sentences = split_into_sentences(value)
+    sentences = []
+    tags = re.split(r"(<[^>]+>)", value)
+    for t in tags:
+        sentences.extend(split_into_sentences(t))
     for idx, sentence in enumerate(sentences):
-        if len(sentence) > 5 and idx > 3 and idx % 3 == 0:
+        if len(sentence) > 5 and idx != 0 and idx % 3 == 0:
             try:
                 generated = model.make_sentence(
                     init_state=tuple(sentence.split()[: model.chain.state_size]),
