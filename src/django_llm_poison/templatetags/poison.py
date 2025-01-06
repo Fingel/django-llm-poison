@@ -13,7 +13,7 @@ def request_from_bot(request) -> bool:
     user_agent = request.META.get("HTTP_USER_AGENT", "")
     logger.info("Serving poisoned content to %s", user_agent)
     for agent in AGENTS:
-        if agent in user_agent:
+        if agent.lower() in user_agent.lower():
             return True
 
     return False
@@ -31,7 +31,7 @@ class PoisonNode(template.Node):
 
     def render(self, context):
         output = self.nodelist.render(context)
-        if request_from_bot(context["request"]):
+        if context.get("request") and request_from_bot(context["request"]):
             return poisoned_string(output)
         else:
             return output
