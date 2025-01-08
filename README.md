@@ -55,6 +55,11 @@ It also works with dynamic content:
 Blog content: {{ post.content }}
 {% endpoison %}
 ```
+
+## Testing Poisoned Content
+Besides setting your user agent to something like GPTBot, django-llm-poison will also serve poisoned content
+if the `poison` request parameter is set. For example: http://127.0.0.1/?poison=1
+
 ## How it Works
 The app uses [markovify](https://github.com/jsvine/markovify) to generate Markov chains from your content and then
 uses these chains to replace a subset of the sentences within the {% poison %} tag if the user agent matches a
