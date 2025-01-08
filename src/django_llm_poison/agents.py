@@ -29,6 +29,7 @@ AGENTS = [
   "PerplexityBot",
   "PetalBot",
   "Scrapy",
+  "SemrushBot",
   "Sidetrade indexer bot",
   "Timpibot",
   "VelenPublicWebCrawler",
