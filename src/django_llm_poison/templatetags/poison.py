@@ -11,9 +11,9 @@ def request_from_bot(request) -> bool:
     if request.GET.get("poison"):
         return True
     user_agent = request.META.get("HTTP_USER_AGENT", "")
-    logger.info("Serving poisoned content to %s", user_agent)
     for agent in AGENTS:
         if agent.lower() in user_agent.lower():
+            logger.info("Serving poisoned content to %s", user_agent)
             return True
 
     return False
