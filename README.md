@@ -1,6 +1,6 @@
 # django-llm-poison
 A pluggable Django application that replaces a subset of text content with
-nonsense when served to AI crawlers.
+nonsense when served to AI crawlers. Inspired by [quixotic](https://github.com/marcus0x62/quixotic).
 
 ## Example
 
