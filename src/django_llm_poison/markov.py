@@ -31,7 +31,10 @@ def build_model_for_content(value: str):
     hash = hashlib.sha1(value.encode()).hexdigest()
     stripped = strip_tags(value)
     if not MarkovModel.objects.filter(hash=hash).exists():
-        model = markovify.Text(stripped)
+        try:
+            model = markovify.Text(stripped)
+        except Exception:
+            return None
         markov_model = MarkovModel.objects.create(hash=hash, text=model.to_json())
         cache.delete("combined_model")
         return markov_model
