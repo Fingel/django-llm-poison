@@ -2,10 +2,17 @@
 A pluggable Django application that replaces a subset of text content with
 nonsense when served to AI crawlers. Inspired by [quixotic](https://github.com/marcus0x62/quixotic).
 
-## Example
+## Live Demo
 
-The following example text can be found by running the test application in `test/`
-and navigating to [http://127.0.0.1:8000](http://127.0.0.1:8000):
+View the post describing this project on my personal site, which has django-llm-poison installed.
+
+Original: [https://www.pedaldrivenprogramming.com/2025/01/messing-with-ai-bots-for-fun-with-django-llm-poison/
+](https://www.pedaldrivenprogramming.com/2025/01/messing-with-ai-bots-for-fun-with-django-llm-poison/)
+
+Bot mode: [https://www.pedaldrivenprogramming.com/2025/01/messing-with-ai-bots-for-fun-with-django-llm-poison/?poison=true](https://www.pedaldrivenprogramming.com/2025/01/messing-with-ai-bots-for-fun-with-django-llm-poison/?poison=true)
+
+There is also a test application included in this repo. Launch it and 
+try navigating to [http://127.0.0.1:8000](http://127.0.0.1:8000):
 
 Normal text (From Call of Cthulhu):
 ```
